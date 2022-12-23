@@ -145,7 +145,7 @@ namespace BlackLink_Repository.Repository
                 {
                     Id = Guid.Parse(user.User.Id),
                     NickName = user.User.NickName,
-                    PhotoUrl = user.User.PhotoUrl
+                    PhotoUrl = user.User.UserPhotos.Select(p => p.PhotoUrl).FirstOrDefault()!,
                 }).ToList(),
                 Blogs = groub.Blogs.Select(blog => new BlogDto()
                 {
@@ -158,7 +158,7 @@ namespace BlackLink_Repository.Repository
                     {
                         Id = Guid.Parse(blog.Blog.User.Id),
                         NickName = blog.Blog.User.NickName,
-                        PhotoUrl = blog.Blog.User.PhotoUrl,
+                        PhotoUrl = blog.Blog.User.UserPhotos.Select(p => p.PhotoUrl).FirstOrDefault()!,
                     },
                     Comments = blog.Blog.BlogComments.Select(comment => new CommentDto()
                     {

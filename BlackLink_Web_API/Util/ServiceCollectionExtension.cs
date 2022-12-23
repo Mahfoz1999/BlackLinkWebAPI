@@ -37,7 +37,7 @@ namespace BlackLink_API.Util
                 o.Password.RequireUppercase = false;
                 o.Password.RequireNonAlphanumeric = false;
                 o.User.RequireUniqueEmail = true;
-                o.SignIn.RequireConfirmedEmail = true;
+                o.SignIn.RequireConfirmedEmail = false;
             }).AddEntityFrameworkStores<BlackLinkDbContext>()
             .AddDefaultTokenProviders();
         }
@@ -46,7 +46,7 @@ namespace BlackLink_API.Util
         {
             var jwtConfig = configuration.GetSection("jwtConfig");
             var secretKey = jwtConfig["secret"];
-            _ = services.AddAuthentication(opt =>
+            services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -77,7 +77,7 @@ namespace BlackLink_API.Util
 
         public static void ConfigureSwagger(this IServiceCollection services)
         {
-            _ = services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {

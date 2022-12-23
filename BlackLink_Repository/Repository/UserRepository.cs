@@ -7,7 +7,6 @@ using BlackLink_SharedKernal.Enum.Personality;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
 namespace BlackLink_Repository.Repository
 {
     public class UserRepository : IUserRepository
@@ -31,8 +30,8 @@ namespace BlackLink_Repository.Repository
                     && _httpcontext.User.Identity != null
                     && _httpcontext.User.Identity.IsAuthenticated)
             {
-                User? user = await _userManager.GetUserAsync(_httpcontext.User);
-                return user;
+                User? user = await _userManager.GetUserAsync(_httpcontext.User)!;
+                return user!;
             }
             else
                 throw new UnauthorizedAccessException("User is not Authenticated");
@@ -47,7 +46,7 @@ namespace BlackLink_Repository.Repository
                     && _httpcontext.User.Identity.IsAuthenticated)
             {
                 var user = await _userManager.GetUserAsync(_httpcontext.User);
-                return user.GenderPrefere;
+                return user!.GenderPrefere;
             }
             else
                 throw new UnauthorizedAccessException("User is not Authenticated");
@@ -60,25 +59,26 @@ namespace BlackLink_Repository.Repository
                {
                    Id = Guid.Parse(user.Id),
                    NickName = user.NickName,
-                   Age = user.Birthdate.Year - DateTimeOffset.Now.Year,
+                   Age = Math.Abs(user.Birthdate.Year - DateTimeOffset.Now.Year),
                    Country = user.Country!,
                    City = user.City!,
+                   PhotoUrl = user.UserPhotos.Select(p => p.PhotoUrl).FirstOrDefault()!,
                }).ToListAsync();
             return users;
         }
         public async Task<UserInfoDto> GetUser(Guid Id)
         {
             var user = await Context.Users
-                .Where(user => user.Id.Equals(Id)).Select(user => new UserInfoDto()
+                .Where(user => user.Id == Id.ToString()).Select(user => new UserInfoDto()
                 {
                     Id = Guid.Parse(user.Id),
-                    UserName = user.UserName,
+                    UserName = user.UserName!,
                     NickName = user.NickName,
                     Birthdate = user.Birthdate,
                     CreationDate = user.CreationDate,
                     Country = user.Country,
                     City = user.City,
-                    Age = user.Birthdate.Year - DateTimeOffset.Now.Year,
+                    Age = Math.Abs(user.Birthdate.Year - DateTimeOffset.Now.Year),
                     GenderPrefere = user.GenderPrefere,
                     AboutMe = user.AboutMe,
                     FacebookLink = user.FacebookLink,
@@ -92,9 +92,24 @@ namespace BlackLink_Repository.Repository
                     {
                         Id = inte.Interest.Id,
                         InterestName = inte.Interest.InterestName
-                    }).ToList()
+                    }).ToList(),
+                    UserPhotos = user.UserPhotos.Select(p => p.PhotoUrl).ToList(),
                 }).SingleOrDefaultAsync();
             return user is not null ? user : throw new KeyNotFoundException("User Not Found");
+        }
+        public async Task UpdateCurrentUserPhoto(IFormFile file)
+        {
+            User? user = await GetCurrentUser();
+            if (user is not null)
+            {
+                if (file is not null)
+                {
+                    /* if (user.PhotoUrl is not "")
+                         FileManagment.DeleteFile(user.PhotoUrl);
+                     user.PhotoUrl = await FileManagment.SaveFile(FileType.Users, file);
+                     await Context.SaveChangesAsync();*/
+                }
+            }
         }
     }
 }

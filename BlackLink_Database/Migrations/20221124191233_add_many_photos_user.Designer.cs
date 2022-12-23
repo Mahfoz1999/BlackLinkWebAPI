@@ -4,6 +4,7 @@ using BlackLink_Database.SQLConnection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlackLinkDatabase.Migrations
 {
     [DbContext(typeof(BlackLinkDbContext))]
-    partial class BlackLinkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221124191233_add_many_photos_user")]
+    partial class addmanyphotosuser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

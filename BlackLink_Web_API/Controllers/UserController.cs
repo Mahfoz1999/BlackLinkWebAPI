@@ -22,10 +22,20 @@ namespace BlackLink_API.Controllers
             return Ok(await userRepository.GetAllUsers());
         }
         [HttpGet]
+        [AllowAnonymous]
         [Route("[action]")]
         public async Task<IActionResult> GetUser(Guid Id)
         {
             return Ok(await userRepository.GetUser(Id));
         }
+        [HttpPost]
+        [Authorize]
+        [Route("[action]")]
+        public async Task<IActionResult> UpdateCurrentUserPhoto(IFormFile file)
+        {
+            await userRepository.UpdateCurrentUserPhoto(file);
+            return Ok();
+        }
+
     }
 }

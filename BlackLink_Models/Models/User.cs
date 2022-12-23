@@ -1,4 +1,5 @@
-﻿using BlackLink_SharedKernal.Enum.Personality;
+﻿using BlackLink_Models.Models.Files;
+using BlackLink_SharedKernal.Enum.Personality;
 using Microsoft.AspNetCore.Identity;
 
 namespace BlackLink_Models.Models
@@ -18,10 +19,11 @@ namespace BlackLink_Models.Models
             Friends = new List<User>();
             GroubUsers = new List<GroubUser>();
             Groubs = new List<Groub>();
+            UserPhotos = new List<UserPhoto>();
         }
         public required string NickName { get; set; } = string.Empty;
         public string AboutMe { get; set; } = string.Empty;
-        public string PhotoUrl { get; set; } = string.Empty;
+        public List<UserPhoto> UserPhotos { get; set; }
         public string? Country { get; set; } = string.Empty;
         public string? City { get; set; } = string.Empty;
         public string? FacebookLink { get; set; } = string.Empty;

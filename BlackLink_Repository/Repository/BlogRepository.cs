@@ -142,7 +142,7 @@ namespace BlackLink_Repository.Repository
                 {
                     Id = Guid.Parse(blog.User.Id),
                     NickName = blog.User.NickName,
-                    PhotoUrl = blog.User.PhotoUrl,
+                    PhotoUrl = blog.User.UserPhotos.Select(p => p.PhotoUrl).FirstOrDefault()!,
                 },
                 Comments = blog.BlogComments.Select(comment => new CommentDto()
                 {
@@ -169,7 +169,7 @@ namespace BlackLink_Repository.Repository
                 {
                     Id = Guid.Parse(blog.User.Id),
                     NickName = blog.User.NickName,
-                    PhotoUrl = blog.User.PhotoUrl,
+                    PhotoUrl = blog.User.UserPhotos.Select(p => p.PhotoUrl).FirstOrDefault()!,
                 },
                 Comments = blog.BlogComments.Select(comment => new CommentDto()
                 {
