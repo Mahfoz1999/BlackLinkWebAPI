@@ -2,11 +2,11 @@
 using BlackLink_DTO.Mail;
 using BlackLink_DTO.User;
 using BlackLink_IRepository.IRepository.Authentication;
-using BlackLink_MailService.IServices;
 using BlackLink_Models.Models;
 using BlackLink_Models.Models.Files;
 using BlackLink_Repository.IRepository;
 using BlackLink_Repository.Util;
+using BlackLink_Services.MailService;
 using BlackLink_SharedKernal.Enum.File;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;

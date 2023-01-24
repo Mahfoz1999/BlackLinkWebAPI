@@ -1,8 +1,8 @@
 ﻿
 using BlackLink_DTO.User;
 using BlackLink_IRepository.IRepository.Authentication;
-using BlackLink_MailService.IServices;
 using BlackLink_Models.Models;
+using BlackLink_Services.MailService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

@@ -1,5 +1,5 @@
 ﻿using BlackLink_DTO.Mail;
-using BlackLink_MailService.IServices;
+using BlackLink_Services.MailService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

@@ -14,7 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BlackLink_Database\BlackLink_Database.csproj" />
     <ProjectReference Include="..\BlackLink_DTO\BlackLink_DTO.csproj" />
-    <ProjectReference Include="..\BlackLink_MailService\BlackLink_MailService.csproj" />
+    <ProjectReference Include="..\BlackLink_Services\BlackLink_Services.csproj" />
   </ItemGroup>
 
 </Project>
