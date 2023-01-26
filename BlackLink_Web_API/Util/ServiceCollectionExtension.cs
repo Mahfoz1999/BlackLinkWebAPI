@@ -1,11 +1,13 @@
 ﻿
 using BlackLink_Database.SQLConnection;
 using BlackLink_Models.Models;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 using System.Text;
 
 namespace BlackLink_API.Util
@@ -27,7 +29,11 @@ namespace BlackLink_API.Util
         {
             _ = services.AddResponseCaching();
         }
-
+        public static IServiceCollection AddApplication(this IServiceCollection services)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            return services.AddMediatR(assembly);
+        }
         public static void ConfigureIdentity(this IServiceCollection services)
         {
             var builder = services.AddIdentity<User, IdentityRole>(o =>

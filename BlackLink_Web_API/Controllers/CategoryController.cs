@@ -1,5 +1,6 @@
 ﻿using BlackLink_DTO.Category;
 using BlackLink_Repository.IRepository;
+using BlackLink_Services.CategoryService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,9 +11,11 @@ namespace BlackLink_API.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository categoryRepository;
-        public CategoryController(ICategoryRepository categoryRepository)
+        private readonly ICategoryService service;
+        public CategoryController(ICategoryRepository categoryRepository, ICategoryService service)
         {
             this.categoryRepository = categoryRepository;
+            this.service = service;
         }
 
         [HttpPost]
@@ -44,7 +47,7 @@ namespace BlackLink_API.Controllers
         [Route("[action]")]
         public async Task<IActionResult> GetCategory(Guid Id)
         {
-            var category = await categoryRepository.GetCategory(Id);
+            var category = await service.GetCategoryById(Id);
             return Ok(category);
         }
         [HttpDelete]

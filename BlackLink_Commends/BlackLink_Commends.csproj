@@ -7,16 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MailKit" Version="3.4.3" />
     <PackageReference Include="MediatR" Version="11.1.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.0" />
-    <PackageReference Include="MimeKit" Version="3.4.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BlackLink_Commends\BlackLink_Commends.csproj" />
-    <ProjectReference Include="..\BlackLink_DTO\BlackLink_DTO.csproj" />
+    <ProjectReference Include="..\BlackLink_Database\BlackLink_Database.csproj" />
+    <ProjectReference Include="..\BlackLink_Models\BlackLink_Models.csproj" />
   </ItemGroup>
 
 </Project>
