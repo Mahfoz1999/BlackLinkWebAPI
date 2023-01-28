@@ -1,5 +1,4 @@
 using BlackLink_API.Middleware;
-using BlackLink_API.Util;
 using BlackLink_Database.SQLConnection;
 using BlackLink_DTO.Mail;
 using BlackLink_IRepository.IRepository.Authentication;
@@ -8,12 +7,13 @@ using BlackLink_Repository.Repository;
 using BlackLink_Repository.Repository.Authentication;
 using BlackLink_Services.CategoryService;
 using BlackLink_Services.MailService;
+using BlackLink_Web_API.Util;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
@@ -27,21 +27,22 @@ builder.Services.TryAddScoped<IBlogCommnetRepository, BlogCommnetRepository>();
 builder.Services.TryAddScoped<IStoryRepository, StoryRepository>();
 builder.Services.TryAddScoped<ISocialRepository, SocialRepository>();
 builder.Services.TryAddScoped<IGroubRepository, GroubRepository>();
-builder.Services.TryAddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.TryAddScoped<ICategoryService, CategoryService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddTransient<Mediator>();
+builder.Services.AddCommendTransients();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-//builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
 
 builder.Services
    .AddDbContext<BlackLinkDbContext>(options =>
    {
-       var connectionString = builder.Configuration.GetConnectionString("DefaultSQL");
-       options.UseSqlServer(connectionString);
+       string? connectionString = builder.Configuration.GetConnectionString("DefaultSQL");
+       _ = options.UseSqlServer(connectionString);
    });
 
 builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
@@ -51,7 +52,7 @@ builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJWT(builder.Configuration);
 builder.Services.ConfigureSwagger();
 builder.Services.ConfigureControllers();
-var app = builder.Build();
+WebApplication app = builder.Build();
 app.UseCors(cors => cors
               .AllowAnyMethod()
               .AllowAnyHeader()
@@ -60,8 +61,8 @@ app.UseCors(cors => cors
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    _ = app.UseSwagger();
+    _ = app.UseSwaggerUI();
 }
 app.UseStaticFiles();
 app.UseHttpsRedirection();

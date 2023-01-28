@@ -1,48 +1,49 @@
-﻿using BlackLink_Repository.Exceptions;
+﻿using BlackLink_Commends.Exceptions;
 using System.Net;
 using System.Text.Json;
 
-namespace BlackLink_API.Middleware
+namespace BlackLink_API.Middleware;
+
+public class ErrorHandlerMiddleware
 {
-    public class ErrorHandlerMiddleware
+    private readonly RequestDelegate _next;
+
+    public ErrorHandlerMiddleware(RequestDelegate next)
     {
-        private readonly RequestDelegate _next;
+        _next = next;
+    }
 
-        public ErrorHandlerMiddleware(RequestDelegate next)
+    public async Task Invoke(HttpContext context)
+    {
+        try
         {
-            _next = next;
+            await _next(context);
         }
-
-        public async Task Invoke(HttpContext context)
+        catch (Exception error)
         {
-            try
+            var response = context.Response;
+            response.ContentType = "application/json";
+            string errorMessage = error.Message;
+            switch (error)
             {
-                await _next(context);
+                case ValidException:
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    break;
+                case NotFoundException:
+                    response.StatusCode = (int)HttpStatusCode.NotFound;
+                    break;
+                case UnauthorizedException:
+                    response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    break;
+                default:
+                    // unhandled error
+                    response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    errorMessage = "Internal Server Error";
+                    break;
             }
-            catch (Exception error)
-            {
-                var response = context.Response;
-                response.ContentType = "application/json";
-
-                switch (error)
-                {
-                    case AppException:
-                        // custom application error
-                        response.StatusCode = (int)HttpStatusCode.BadRequest;
-                        break;
-                    case KeyNotFoundException:
-                        // not found error
-                        response.StatusCode = (int)HttpStatusCode.NotFound;
-                        break;
-                    default:
-                        // unhandled error
-                        response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        break;
-                }
-
-                var result = JsonSerializer.Serialize(new { message = error?.Message });
-                await response.WriteAsync(result);
-            }
+            Console.WriteLine(error);
+            var result = JsonSerializer.Serialize(errorMessage);
+            await response.WriteAsync(result);
         }
     }
 }

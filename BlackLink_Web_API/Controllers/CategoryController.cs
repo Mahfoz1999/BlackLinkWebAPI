@@ -1,37 +1,33 @@
-﻿using BlackLink_DTO.Category;
-using BlackLink_Repository.IRepository;
+﻿using BlackLink_Commends.Commend.CategoryCommends.Commend;
+using BlackLink_DTO.Category;
 using BlackLink_Services.CategoryService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BlackLink_API.Controllers
+namespace BlackLink_Web_API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class CategoryController : Controller
     {
-        private readonly ICategoryRepository categoryRepository;
         private readonly ICategoryService service;
-        public CategoryController(ICategoryRepository categoryRepository, ICategoryService service)
+        public CategoryController(ICategoryService service)
         {
-            this.categoryRepository = categoryRepository;
             this.service = service;
         }
 
         [HttpPost]
-        [Authorize]
         [Route("[action]")]
-        public async Task<IActionResult> AddCategory(CategoryFormDto formDto)
+        public async Task<IActionResult> AddCategory(AddCategoryCommned addCategoryCommned)
         {
-            var category = await categoryRepository.AddCategory(formDto);
+            AddCategoryCommned category = await service.AddCategory(addCategoryCommned);
             return Ok(category);
         }
         [HttpPut]
-        [Authorize]
         [Route("[action]")]
-        public async Task<IActionResult> UpdateCategory(CategoryFormDto formDto)
+        public async Task<IActionResult> UpdateCategory(UpdateCategoryCommend updateCategoryCommend)
         {
-            var category = await categoryRepository.UpdateCategory(formDto);
+            UpdateCategoryCommend category = await service.UpdateCategory(updateCategoryCommend);
             return Ok(category);
         }
         [HttpGet]
@@ -39,7 +35,7 @@ namespace BlackLink_API.Controllers
         [Route("[action]")]
         public async Task<IActionResult> GetAllCategories()
         {
-            var category = await categoryRepository.GetAllCategories();
+            IEnumerable<CategoryDto> category = await service.GetAllCategories();
             return Ok(category);
         }
         [HttpGet]
@@ -47,16 +43,15 @@ namespace BlackLink_API.Controllers
         [Route("[action]")]
         public async Task<IActionResult> GetCategory(Guid Id)
         {
-            var category = await service.GetCategoryById(Id);
+            CategoryDto category = await service.GetCategoryById(Id);
             return Ok(category);
         }
         [HttpDelete]
-        [Authorize]
         [Route("[action]")]
-        public async Task<IActionResult> RemoveCategory(Guid Id)
+        public async Task<IActionResult> RemoveCategory(RemoveCategoryCommend removeCategoryCommend)
         {
-            await categoryRepository.RemoveCategory(Id);
-            return Ok();
+            RemoveCategoryCommend result = await service.RemoveCategory(removeCategoryCommend);
+            return Ok(result);
         }
     }
 }

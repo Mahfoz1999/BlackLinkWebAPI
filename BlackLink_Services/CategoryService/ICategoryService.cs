@@ -1,9 +1,14 @@
-﻿using BlackLink_DTO.Category;
+﻿using BlackLink_Commends.Commend.CategoryCommends.Commend;
+using BlackLink_DTO.Category;
 
 namespace BlackLink_Services.CategoryService;
 
 public interface ICategoryService
 {
     public Task<CategoryDto> GetCategoryById(Guid id);
+    public Task<IEnumerable<CategoryDto>> GetAllCategories();
+    public Task<AddCategoryCommned> AddCategory(AddCategoryCommned addCategoryCommned);
+    public Task<UpdateCategoryCommend> UpdateCategory(UpdateCategoryCommend updateCategoryCommend);
+    public Task<RemoveCategoryCommend> RemoveCategory(RemoveCategoryCommend updateCategoryCommend);
 
 }
