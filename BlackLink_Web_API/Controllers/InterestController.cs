@@ -1,5 +1,5 @@
-﻿using BlackLink_DTO.Interest;
-using BlackLink_Repository.IRepository;
+﻿using BlackLink_Commends.Commend.InterestCommend.Commend;
+using BlackLink_Services.InterestService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,44 +9,28 @@ namespace BlackLink_API.Controllers
     [Route("api/[controller]")]
     public class InterestController : Controller
     {
-        private readonly IInterestRepository repository;
-        public InterestController(IInterestRepository repository)
+        private readonly IInterestService service;
+        public InterestController(IInterestService service)
         {
-            this.repository = repository;
+            this.service = service;
         }
         #region Actions
         [HttpPost]
-        [Authorize]
         [Route("[action]")]
-        public async Task<IActionResult> AddInterests(InterestFormDto formDto)
+        public async Task<IActionResult> AddInterests(AddInterestCommend commend)
         {
-            var interest = await repository.AddInterests(formDto);
+            var interest = await service.AddInterest(commend);
             return Ok(interest);
         }
         [HttpPut]
-        [Authorize]
         [Route("[action]")]
-        public async Task<IActionResult> UpdateInterests(InterestFormDto formDto)
+        public async Task<IActionResult> UpdateInterest(UpdateInterestCommend commend)
         {
-            var interest = await repository.UpdateInterests(formDto);
+            var interest = await service.UpdateInterest(commend);
             return Ok(interest);
         }
-        [HttpPost]
-        [Authorize]
-        [Route("[action]")]
-        public async Task<IActionResult> AddUserInterests(List<Guid> Ids)
-        {
-            var interest = await repository.AddUserInterests(Ids);
-            return Ok(interest);
-        }
-        [HttpPut]
-        [Authorize]
-        [Route("[action]")]
-        public async Task<IActionResult> UpdateUserInterests(List<Guid> Ids)
-        {
-            var interest = await repository.UpdateUserInterests(Ids);
-            return Ok(interest);
-        }
+
+
         #endregion
 
         #region Get
@@ -55,36 +39,21 @@ namespace BlackLink_API.Controllers
         [Route("[action]")]
         public async Task<IActionResult> GetAllInterests()
         {
-            var interest = await repository.GetAllInterests();
+            var interest = await service.GetAllInterests();
             return Ok(interest);
         }
-        [HttpGet]
-        [AllowAnonymous]
-        [Route("[action]")]
-        public async Task<IActionResult> GetUserInterests()
-        {
-            var interest = await repository.GetUserInterests();
-            return Ok(interest);
-        }
+
         #endregion
 
         #region Remove
         [HttpDelete]
-        [Authorize]
         [Route("[action]")]
-        public async Task<IActionResult> RemoveInterests(Guid userId)
+        public async Task<IActionResult> RemoveInterests(RemoveInterestCommend commend)
         {
-            var interest = await repository.RemoveInterests(userId);
+            var interest = await service.RemoveInterest(commend);
             return Ok(interest);
         }
-        [HttpDelete]
-        [Authorize]
-        [Route("[action]")]
-        public async Task<IActionResult> RemoveUserInterests(List<Guid> Ids)
-        {
-            var interest = await repository.RemoveUserInterests(Ids);
-            return Ok(interest);
-        }
+
         #endregion
     }
 }

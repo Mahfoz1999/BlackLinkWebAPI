@@ -18,9 +18,9 @@ namespace BlackLink_Web_API.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> AddCategory(AddCategoryCommned addCategoryCommned)
+        public async Task<IActionResult> AddCategory(AddCategoryCommend addCategoryCommned)
         {
-            AddCategoryCommned category = await service.AddCategory(addCategoryCommned);
+            AddCategoryCommend category = await service.AddCategory(addCategoryCommned);
             return Ok(category);
         }
         [HttpPut]

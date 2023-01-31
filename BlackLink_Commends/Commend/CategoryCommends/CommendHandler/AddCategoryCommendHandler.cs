@@ -5,15 +5,15 @@ using MediatR;
 
 namespace BlackLink_Commends.Commend.CategoryCommends.CommendHandler;
 
-public class AddCategoryCommnedHandler : IRequestHandler<AddCategoryCommned, Category>
+public class AddCategoryCommendHandler : IRequestHandler<AddCategoryCommend, Category>
 {
     private readonly BlackLinkDbContext Context;
-    public AddCategoryCommnedHandler(BlackLinkDbContext context)
+    public AddCategoryCommendHandler(BlackLinkDbContext context)
     {
         Context = context;
     }
 
-    public async Task<Category> Handle(AddCategoryCommned request, CancellationToken cancellationToken)
+    public async Task<Category> Handle(AddCategoryCommend request, CancellationToken cancellationToken)
     {
         Category category = new()
         {

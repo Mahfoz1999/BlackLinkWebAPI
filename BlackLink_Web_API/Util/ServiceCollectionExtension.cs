@@ -2,6 +2,10 @@
 using BlackLink_Commends.Commend.CategoryCommends.CommendHandler;
 using BlackLink_Commends.Commend.CategoryCommends.Query;
 using BlackLink_Commends.Commend.CategoryCommends.QueryHandler;
+using BlackLink_Commends.Commend.InterestCommend.Commend;
+using BlackLink_Commends.Commend.InterestCommend.CommendHandler;
+using BlackLink_Commends.Commend.InterestCommend.Query;
+using BlackLink_Commends.Commend.InterestCommend.QueryHandler;
 using BlackLink_Database.SQLConnection;
 using BlackLink_Models.Models;
 using MediatR;
@@ -130,8 +134,14 @@ public static class ServiceCollectionExtension
     {
         _ = services.AddTransient<IRequestHandler<GetCategoryByIdQuery, Category>, GetCategoryByIdQueryHandler>();
         _ = services.AddTransient<IRequestHandler<GetAllCategoriesQuery, IEnumerable<Category>>, GetAllCategoriesQueryHandler>();
-        _ = services.AddTransient<IRequestHandler<AddCategoryCommned, Category>, AddCategoryCommnedHandler>();
+        _ = services.AddTransient<IRequestHandler<AddCategoryCommend, Category>, AddCategoryCommendHandler>();
         _ = services.AddTransient<IRequestHandler<UpdateCategoryCommend, Category>, UpdateCategoryCommendHandler>();
         _ = services.AddTransient<IRequestHandler<RemoveCategoryCommend, Category>, RemoveCategoryCommendHandler>();
+
+        _ = services.AddTransient<IRequestHandler<GetInterestByIdQuery, Interest>, GetInterestByIdQueryHandler>();
+        _ = services.AddTransient<IRequestHandler<GetAllInterestsQuery, IEnumerable<Interest>>, GetAllInterestsQueryHandler>();
+        _ = services.AddTransient<IRequestHandler<AddInterestCommend, Interest>, AddInterestCommendHandler>();
+        _ = services.AddTransient<IRequestHandler<UpdateInterestCommend, Interest>, UpdateInterestCommendHandler>();
+        _ = services.AddTransient<IRequestHandler<RemoveInterestCommend, Interest>, RemoveInterestCommendHandler>();
     }
 }

@@ -1,8 +1,7 @@
-﻿namespace BlackLink_DTO.Interest
+﻿namespace BlackLink_DTO.Interest;
+
+public record InterestDto
 {
-    public record InterestDto
-    {
-        public Guid Id { get; set; }
-        public string InterestName { get; set; }
-    }
+    public Guid Id { get; set; }
+    public string InterestName { get; set; }
 }

@@ -14,7 +14,7 @@ public class CategoryService : ICategoryService
         _mediator = mediator;
     }
 
-    public async Task<AddCategoryCommned> AddCategory(AddCategoryCommned addCategoryCommned)
+    public async Task<AddCategoryCommend> AddCategory(AddCategoryCommend addCategoryCommned)
     {
         await _mediator.Send(addCategoryCommned);
         return addCategoryCommned;
