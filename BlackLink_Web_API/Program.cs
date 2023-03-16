@@ -13,10 +13,11 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using System.Reflection;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+Assembly assembly = Assembly.GetExecutingAssembly();
 
-// Add services to the container.
 
 builder.Services.AddControllers();
 builder.Services.AddTransient<IMailService, MailService>();
@@ -27,11 +28,9 @@ builder.Services.TryAddScoped<IBlogRepository, BlogRepository>();
 builder.Services.TryAddScoped<IBlogCommnetRepository, BlogCommnetRepository>();
 builder.Services.TryAddScoped<IStoryRepository, StoryRepository>();
 builder.Services.TryAddScoped<ISocialRepository, SocialRepository>();
-builder.Services.TryAddScoped<IGroubRepository, GroubRepository>();
 builder.Services.TryAddScoped<ICategoryService, CategoryService>();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
-builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
 builder.Services.AddTransient<Mediator>();
 builder.Services.AddCommendTransients();
 builder.Services.AddEndpointsApiExplorer();
@@ -43,7 +42,7 @@ builder.Services
    .AddDbContext<BlackLinkDbContext>(options =>
    {
        string? connectionString = builder.Configuration.GetConnectionString("DefaultSQL");
-       _ = options.UseSqlServer(connectionString);
+       options.UseSqlServer(connectionString);
    });
 
 builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
@@ -62,8 +61,8 @@ app.UseCors(cors => cors
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    _ = app.UseSwagger();
-    _ = app.UseSwaggerUI();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 app.UseStaticFiles();
 app.UseHttpsRedirection();

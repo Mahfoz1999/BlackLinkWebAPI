@@ -7,13 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="11.1.0" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="MediatR" Version="12.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BlackLink_Database\BlackLink_Database.csproj" />
     <ProjectReference Include="..\BlackLink_Models\BlackLink_Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Commend\BlogCommentCommends\CommendHandler\" />
+    <Folder Include="Commend\BlogCommentCommends\Commend\" />
+    <Folder Include="Commend\BlogCommentCommends\QueryHandler\" />
+    <Folder Include="Commend\BlogCommentCommends\Query\" />
   </ItemGroup>
 
 </Project>
