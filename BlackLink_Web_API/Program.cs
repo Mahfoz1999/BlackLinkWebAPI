@@ -1,13 +1,12 @@
 using BlackLink_API.Middleware;
 using BlackLink_Database.SQLConnection;
 using BlackLink_DTO.Mail;
-using BlackLink_IRepository.IRepository.Authentication;
-using BlackLink_Repository.IRepository;
-using BlackLink_Repository.Repository;
-using BlackLink_Repository.Repository.Authentication;
+using BlackLink_Services.AuthenticationService;
+using BlackLink_Services.BlogService;
 using BlackLink_Services.CategoryService;
 using BlackLink_Services.InterestService;
 using BlackLink_Services.MailService;
+using BlackLink_Services.StoryService;
 using BlackLink_Web_API.Util;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -21,13 +20,10 @@ Assembly assembly = Assembly.GetExecutingAssembly();
 
 builder.Services.AddControllers();
 builder.Services.AddTransient<IMailService, MailService>();
-builder.Services.TryAddScoped<IAuthenticationRepository, AuthenticationRepository>();
-builder.Services.TryAddScoped<IUserRepository, UserRepository>();
+builder.Services.TryAddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.TryAddScoped<IInterestService, InterestService>();
-builder.Services.TryAddScoped<IBlogRepository, BlogRepository>();
-builder.Services.TryAddScoped<IBlogCommnetRepository, BlogCommnetRepository>();
-builder.Services.TryAddScoped<IStoryRepository, StoryRepository>();
-builder.Services.TryAddScoped<ISocialRepository, SocialRepository>();
+builder.Services.TryAddScoped<IBlogService, BlogService>();
+builder.Services.TryAddScoped<IStoryService, StoryService>();
 builder.Services.TryAddScoped<ICategoryService, CategoryService>();
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));

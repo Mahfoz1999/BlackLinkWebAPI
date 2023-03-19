@@ -14,7 +14,6 @@ public class BlackLinkDbContext : IdentityDbContext<User>
     public DbSet<InterestUser> InterestUsers { get; set; }
     public DbSet<Blog> Blogs { get; set; }
     public DbSet<Story> Stories { get; set; }
-    public DbSet<BlogComment> BlogComments { get; set; }
     public DbSet<Category> Categories { get; set; }
 
     public BlackLinkDbContext(DbContextOptions<BlackLinkDbContext> options) : base(options)

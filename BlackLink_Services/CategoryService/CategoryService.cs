@@ -38,8 +38,7 @@ public class CategoryService : ICategoryService
 
     public async Task<CategoryDto> GetCategoryById(Guid id)
     {
-        GetCategoryByIdQuery commend = new(Id: id);
-        Category response = await _mediator.Send(commend);
+        Category response = await _mediator.Send(new GetCategoryByIdQuery(id));
         CategoryDto category = new()
         {
             Id = response.Id,
@@ -47,9 +46,8 @@ public class CategoryService : ICategoryService
         };
         return category;
     }
-    public async Task<RemoveCategoryCommend> RemoveCategory(RemoveCategoryCommend removeCategoryCommend)
+    public async Task RemoveCategory(Guid Id)
     {
-        await _mediator.Send(removeCategoryCommend);
-        return removeCategoryCommend;
+        await _mediator.Send(new RemoveCategoryCommend(Id));
     }
 }

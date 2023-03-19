@@ -1,4 +1,6 @@
 ﻿using BlackLink_Commends.Commend.BlogCommends.Commend;
+using BlackLink_Commends.Commend.CategoryCommends.Query;
+using BlackLink_Commends.Commend.UserCommends.Query;
 using BlackLink_Commends.Util;
 using BlackLink_Database.SQLConnection;
 using BlackLink_Models.Models;
@@ -10,17 +12,23 @@ namespace BlackLink_Commends.Commend.BlogCommends.CommendHandler;
 public class AddBlogCommendHandler : IRequestHandler<AddBlogCommend, Blog>
 {
     private readonly BlackLinkDbContext Context;
-    public AddBlogCommendHandler(BlackLinkDbContext Context)
+    private readonly IMediator _mediator;
+    public AddBlogCommendHandler(BlackLinkDbContext Context, IMediator mediator)
     {
         this.Context = Context;
+        _mediator = mediator;
     }
     public async Task<Blog> Handle(AddBlogCommend request, CancellationToken cancellationToken)
     {
+        GetCurrentUserQuery getCurrentUser = new();
+        User user = await _mediator.Send(getCurrentUser);
+        GetCategoryByIdQuery cateogrycommend = new(Id: request.categoryId);
+        Category category = await _mediator.Send(cateogrycommend);
         Blog blog = new()
         {
             Content = request.content,
-            User = request.User,
-            Category = request.category,
+            User = user,
+            Category = category,
         };
         if (request.file is not null)
             blog.ImageUrl = await FileManagment.SaveFile(request.file, FileType.Blogs);

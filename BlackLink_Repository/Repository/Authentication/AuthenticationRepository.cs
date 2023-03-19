@@ -1,11 +1,10 @@
-﻿using BlackLink_Database.SQLConnection;
+﻿using BlackLink_Commends.Util;
+using BlackLink_Database.SQLConnection;
 using BlackLink_DTO.Mail;
 using BlackLink_DTO.User;
 using BlackLink_IRepository.IRepository.Authentication;
 using BlackLink_Models.Models;
 using BlackLink_Models.Models.Files;
-using BlackLink_Repository.IRepository;
-using BlackLink_Repository.Util;
 using BlackLink_Services.MailService;
 using BlackLink_SharedKernal.Enum.File;
 using Microsoft.AspNetCore.Http;
@@ -23,7 +22,6 @@ namespace BlackLink_Repository.Repository.Authentication;
 public class AuthenticationRepository : IAuthenticationRepository
 {
     private IHttpContextAccessor _httpContextAccessor { get; set; }
-    private IUserRepository userRepository { get; set; }
     private readonly UserManager<User> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly IMailService MaileService;
@@ -33,7 +31,6 @@ public class AuthenticationRepository : IAuthenticationRepository
     UserManager<User> userManager,
     IConfiguration configuration,
     IMailService MaileService,
-    IUserRepository userRepository,
     BlackLinkDbContext Context,
     RoleManager<IdentityRole> roleManager,
     IHttpContextAccessor httpContextAccessor)
@@ -43,7 +40,6 @@ public class AuthenticationRepository : IAuthenticationRepository
         _userManager = userManager;
         this.MaileService = MaileService;
         this.Context = Context;
-        this.userRepository = userRepository;
         _roleManager = roleManager;
     }
     public async Task<IdentityResult> SignUp(UserSignUpDto userDto)
@@ -54,7 +50,6 @@ public class AuthenticationRepository : IAuthenticationRepository
             UserName = userDto.UserName,
             Email = userDto.Email,
             Gender = userDto.Gender,
-            GenderPrefere = userDto.GenderPrefere,
             Birthdate = userDto.Birthdate,
             AboutMe = userDto.AboutMe,
             City = userDto.City,
@@ -79,7 +74,7 @@ public class AuthenticationRepository : IAuthenticationRepository
             {
                 UserPhoto userPhoto = new()
                 {
-                    PhotoUrl = await FileManagment.SaveFile(FileType.Users, file),
+                    PhotoUrl = await FileManagment.SaveFile(file, FileType.Users),
                     User = user
                 };
                 await Context.UserPhotos.AddAsync(userPhoto);
@@ -180,12 +175,12 @@ public class AuthenticationRepository : IAuthenticationRepository
 
         return token;
     }
-    public async Task<IdentityResult> ChangePassword(string oldPassword, string newPassword)
-    {
-        var user = await userRepository.GetCurrentUser();
-        IdentityResult changePassResult = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
-        return changePassResult;
-    }
+    /* public async Task<IdentityResult> ChangePassword(string oldPassword, string newPassword)
+     {
+         var user = await userRepository.GetCurrentUser();
+         IdentityResult changePassResult = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+         return changePassResult;
+     }*/
 
 
 

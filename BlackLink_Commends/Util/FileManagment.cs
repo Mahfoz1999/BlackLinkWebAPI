@@ -10,7 +10,7 @@ public class FileManagment
         var fileUrls = new List<string>();
         foreach (var file in files)
         {
-            string folder = $"Files/{fileEntityName}/" + Guid.NewGuid().ToString() + "_" + file.FileName;
+            string folder = $"{fileEntityName}/" + Guid.NewGuid().ToString() + "_" + file.FileName;
             string serverFolder = Path.Combine("wwwroot/", folder);
             var streem = new FileStream(serverFolder, FileMode.Create);
             await file.CopyToAsync(streem);
@@ -21,7 +21,7 @@ public class FileManagment
     }
     public static async Task<string> SaveFile(IFormFile file, FileType FileName)
     {
-        string folder = $"Files/{FileName}/" + Guid.NewGuid().ToString() + "_" + file.FileName;
+        string folder = $"{FileName}/" + Guid.NewGuid().ToString() + "_" + file.FileName;
         string serverFolder = Path.Combine("wwwroot/", folder);
         var x = new FileStream(serverFolder, FileMode.Create);
         await file.CopyToAsync(x);

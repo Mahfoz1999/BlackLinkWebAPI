@@ -25,11 +25,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BlackLink_Repository\BlackLink_Repository.csproj" />
+    <Folder Include="wwwroot\Users\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\Users\" />
+    <ProjectReference Include="..\BlackLink_Models\BlackLink_Models.csproj" />
+    <ProjectReference Include="..\BlackLink_Services\BlackLink_Services.csproj" />
   </ItemGroup>
 
 </Project>

@@ -22,7 +22,6 @@ namespace BlackLink_DTO.User
         public double? Longitude { get; set; }
         public int Age { get; set; }
         public Gender Gender { get; set; }
-        public GenderPrefere GenderPrefere { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTimeOffset Birthdate { get; set; }
         public ICollection<InterestUserDto> Interests { get; set; }

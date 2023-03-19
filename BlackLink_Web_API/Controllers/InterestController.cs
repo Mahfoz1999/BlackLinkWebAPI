@@ -1,4 +1,4 @@
-﻿using BlackLink_Commends.Commend.InterestCommend.Commend;
+﻿using BlackLink_Commends.Commend.InterestCommends.Commend;
 using BlackLink_Services.InterestService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -48,10 +48,10 @@ namespace BlackLink_API.Controllers
         #region Remove
         [HttpDelete]
         [Route("[action]")]
-        public async Task<IActionResult> RemoveInterests(RemoveInterestCommend commend)
+        public async Task<IActionResult> RemoveInterests(Guid Id)
         {
-            var interest = await service.RemoveInterest(commend);
-            return Ok(interest);
+            await service.RemoveInterest(Id);
+            return Ok();
         }
 
         #endregion

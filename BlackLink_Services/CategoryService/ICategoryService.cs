@@ -9,6 +9,6 @@ public interface ICategoryService
     public Task<IEnumerable<CategoryDto>> GetAllCategories();
     public Task<AddCategoryCommend> AddCategory(AddCategoryCommend addCategoryCommned);
     public Task<UpdateCategoryCommend> UpdateCategory(UpdateCategoryCommend updateCategoryCommend);
-    public Task<RemoveCategoryCommend> RemoveCategory(RemoveCategoryCommend updateCategoryCommend);
+    public Task RemoveCategory(Guid Id);
 
 }

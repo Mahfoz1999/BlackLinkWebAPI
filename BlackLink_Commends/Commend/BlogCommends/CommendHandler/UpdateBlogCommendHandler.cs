@@ -1,4 +1,5 @@
 ﻿using BlackLink_Commends.Commend.BlogCommends.Commend;
+using BlackLink_Commends.Commend.CategoryCommends.Query;
 using BlackLink_Commends.Exceptions;
 using BlackLink_Commends.Util;
 using BlackLink_Database.SQLConnection;
@@ -11,17 +12,22 @@ namespace BlackLink_Commends.Commend.BlogCommends.CommendHandler;
 public class UpdateBlogCommendHandler : IRequestHandler<UpdateBlogCommend, Blog>
 {
     private readonly BlackLinkDbContext Context;
-    public UpdateBlogCommendHandler(BlackLinkDbContext Context)
+    private readonly IMediator _mediator;
+    public UpdateBlogCommendHandler(BlackLinkDbContext Context, IMediator mediator)
     {
         this.Context = Context;
+        _mediator = mediator;
+
     }
     public async Task<Blog> Handle(UpdateBlogCommend request, CancellationToken cancellationToken)
     {
         Blog? blog = await Context.Blogs.FindAsync(request.Id);
+        GetCategoryByIdQuery cateogrycommend = new(Id: request.categoryId);
+        Category category = await _mediator.Send(cateogrycommend);
         if (blog != null)
         {
             blog.Content = request.content;
-            blog.Category = request.category;
+            blog.Category = category;
             if (request.file is not null)
             {
                 FileManagment.DeleteFile(blog.ImageUrl!);

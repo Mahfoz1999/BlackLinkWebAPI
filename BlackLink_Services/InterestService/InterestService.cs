@@ -1,5 +1,5 @@
-﻿using BlackLink_Commends.Commend.InterestCommend.Commend;
-using BlackLink_Commends.Commend.InterestCommend.Query;
+﻿using BlackLink_Commends.Commend.InterestCommends.Commend;
+using BlackLink_Commends.Commend.InterestCommends.Query;
 using BlackLink_DTO.Interest;
 using MediatR;
 
@@ -30,9 +30,9 @@ public class InterestService : IInterestService
         return response.Select(e => new InterestDto() { Id = e.Id, InterestName = e.InterestName }).ToList();
     }
 
-    public async Task<InterestDto> GetInterest(GetInterestByIdQuery query)
+    public async Task<InterestDto> GetInterest(Guid Id)
     {
-        var response = await _mediator.Send(query);
+        var response = await _mediator.Send(new GetInterestByIdQuery(Id));
         InterestDto interest = new()
         {
             Id = response.Id,
@@ -42,10 +42,9 @@ public class InterestService : IInterestService
 
     }
 
-    public async Task<RemoveInterestCommend> RemoveInterest(RemoveInterestCommend commend)
+    public async Task RemoveInterest(Guid Id)
     {
-        await _mediator.Send(commend);
-        return commend;
+        await _mediator.Send(new RemoveInterestCommend(Id));
     }
 
 

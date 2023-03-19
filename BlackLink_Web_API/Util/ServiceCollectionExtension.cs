@@ -1,12 +1,25 @@
-﻿using BlackLink_Commends.Commend.CategoryCommends.Commend;
+﻿using BlackLink_Commends.Commend.AuthenticationCommends.Commend;
+using BlackLink_Commends.Commend.AuthenticationCommends.CommendHandler;
+using BlackLink_Commends.Commend.AuthenticationCommends.Query;
+using BlackLink_Commends.Commend.AuthenticationCommends.QueryHandler;
+using BlackLink_Commends.Commend.BlogCommends.Commend;
+using BlackLink_Commends.Commend.BlogCommends.CommendHandler;
+using BlackLink_Commends.Commend.BlogCommends.Query;
+using BlackLink_Commends.Commend.BlogCommends.QueryHandler;
+using BlackLink_Commends.Commend.CategoryCommends.Commend;
 using BlackLink_Commends.Commend.CategoryCommends.CommendHandler;
 using BlackLink_Commends.Commend.CategoryCommends.Query;
 using BlackLink_Commends.Commend.CategoryCommends.QueryHandler;
-using BlackLink_Commends.Commend.InterestCommend.Commend;
-using BlackLink_Commends.Commend.InterestCommend.CommendHandler;
-using BlackLink_Commends.Commend.InterestCommend.Query;
-using BlackLink_Commends.Commend.InterestCommend.QueryHandler;
+using BlackLink_Commends.Commend.InterestCommends.Commend;
+using BlackLink_Commends.Commend.InterestCommends.CommendHandler;
+using BlackLink_Commends.Commend.InterestCommends.Query;
+using BlackLink_Commends.Commend.InterestCommends.QueryHandler;
+using BlackLink_Commends.Commend.StoryCommends.Commend;
+using BlackLink_Commends.Commend.StoryCommends.CommendHandler;
+using BlackLink_Commends.Commend.StoryCommends.Query;
+using BlackLink_Commends.Commend.StoryCommends.QueryHandler;
 using BlackLink_Database.SQLConnection;
+using BlackLink_DTO.User;
 using BlackLink_Models.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -14,6 +27,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using System.Text;
 
@@ -132,6 +146,11 @@ public static class ServiceCollectionExtension
     #endregion
     public static void AddCommendTransients(this IServiceCollection services)
     {
+        services.AddTransient<IRequestHandler<GetTokenQuery, JwtSecurityToken>, GetTokenQueryHandler>();
+        services.AddTransient<IRequestHandler<SignUpCommend, IdentityResult>, SignUpCommendHandler>();
+        services.AddTransient<IRequestHandler<UpdateUserCommend, IdentityResult>, UpdateUserCommendHandler>();
+        services.AddTransient<IRequestHandler<LogInCommend, TokenModel>, LogInCommendHanlder>();
+
         services.AddTransient<IRequestHandler<GetCategoryByIdQuery, Category>, GetCategoryByIdQueryHandler>();
         services.AddTransient<IRequestHandler<GetAllCategoriesQuery, IEnumerable<Category>>, GetAllCategoriesQueryHandler>();
         services.AddTransient<IRequestHandler<AddCategoryCommend, Category>, AddCategoryCommendHandler>();
@@ -143,5 +162,17 @@ public static class ServiceCollectionExtension
         services.AddTransient<IRequestHandler<AddInterestCommend, Interest>, AddInterestCommendHandler>();
         services.AddTransient<IRequestHandler<UpdateInterestCommend, Interest>, UpdateInterestCommendHandler>();
         services.AddTransient<IRequestHandler<RemoveInterestCommend, Interest>, RemoveInterestCommendHandler>();
+
+        services.AddTransient<IRequestHandler<GetBlogByIdQuery, Blog>, GetBlogByIdQueryHandler>();
+        services.AddTransient<IRequestHandler<GetAllBlogsQuery, IEnumerable<Blog>>, GetAllBlogsQueryHandler>();
+        services.AddTransient<IRequestHandler<AddBlogCommend, Blog>, AddBlogCommendHandler>();
+        services.AddTransient<IRequestHandler<UpdateBlogCommend, Blog>, UpdateBlogCommendHandler>();
+        services.AddTransient<IRequestHandler<RemoveBlogCommend, Blog>, RemoveBlogCommendHandler>();
+
+        services.AddTransient<IRequestHandler<GetStoryByIdQuery, Story>, GetStoryByIdQueryHandler>();
+        services.AddTransient<IRequestHandler<GetAllStoriesQuery, IEnumerable<Story>>, GetAllStoriesQueryHandler>();
+        services.AddTransient<IRequestHandler<AddStoryCommend, Story>, AddStoryCommendHandler>();
+        services.AddTransient<IRequestHandler<UpdateStoryCommend, Story>, UpdateStoryCommendHandler>();
+        services.AddTransient<IRequestHandler<RemoveStoryCommend, Story>, RemoveStoryCommendHandler>();
     }
 }

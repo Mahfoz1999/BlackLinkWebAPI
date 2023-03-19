@@ -8,19 +8,19 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BlackLink_Database\BlackLink_Database.csproj" />
+    <ProjectReference Include="..\BlackLink_DTO\BlackLink_DTO.csproj" />
     <ProjectReference Include="..\BlackLink_Models\BlackLink_Models.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Commend\BlogCommentCommends\CommendHandler\" />
-    <Folder Include="Commend\BlogCommentCommends\Commend\" />
-    <Folder Include="Commend\BlogCommentCommends\QueryHandler\" />
-    <Folder Include="Commend\BlogCommentCommends\Query\" />
+    <Folder Include="Commend\UserCommends\Commend\" />
+    <Folder Include="Commend\UserCommends\CommendHandler\" />
   </ItemGroup>
 
 </Project>

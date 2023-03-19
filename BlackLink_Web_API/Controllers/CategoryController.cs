@@ -48,10 +48,10 @@ namespace BlackLink_Web_API.Controllers
         }
         [HttpDelete]
         [Route("[action]")]
-        public async Task<IActionResult> RemoveCategory(RemoveCategoryCommend removeCategoryCommend)
+        public async Task<IActionResult> RemoveCategory(Guid Id)
         {
-            RemoveCategoryCommend result = await service.RemoveCategory(removeCategoryCommend);
-            return Ok(result);
+            await service.RemoveCategory(Id);
+            return Ok();
         }
     }
 }

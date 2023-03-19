@@ -1,7 +1,7 @@
 ﻿
 using BlackLink_DTO.User;
-using BlackLink_IRepository.IRepository.Authentication;
 using BlackLink_Models.Models;
+using BlackLink_Services.AuthenticationService;
 using BlackLink_Services.MailService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -15,10 +15,10 @@ namespace BlackLink_API.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly IMailService MaileService;
-        private IAuthenticationRepository Manager { get; }
-        public AuthenticationController(IMailService MaileService, IAuthenticationRepository manager, UserManager<User> userManager)
+        private IAuthenticationService Service { get; }
+        public AuthenticationController(IMailService MaileService, IAuthenticationService Service, UserManager<User> userManager)
         {
-            Manager = manager;
+            this.Service = Service;
             this.MaileService = MaileService;
             _userManager = userManager;
         }
@@ -26,7 +26,7 @@ namespace BlackLink_API.Controllers
         [Route("[action]")]
         public async Task<IActionResult> SignUp([FromForm] UserSignUpDto userDto)
         {
-            var result = await Manager.SignUp(userDto);
+            var result = await Service.SignUp(userDto);
             return result.Succeeded ? StatusCode(201) : new BadRequestObjectResult(result);
         }
         [HttpGet]
@@ -40,36 +40,19 @@ namespace BlackLink_API.Controllers
             return Ok(result.Succeeded ? nameof(ConfirmEmail) : "Error");
         }
 
-        [HttpPost]
-        [Authorize]
-        [Route("[action]")]
-        public async Task<IActionResult> ChangePassword(string oldPassword, string newPassword)
-        {
-            var result = await Manager.ChangePassword(oldPassword, newPassword);
-            return result.Succeeded ? Ok() : BadRequest(result.Errors);
-        }
-        [HttpPost]
-        [AllowAnonymous]
-        [Route("[action]")]
-        public async Task<IActionResult> ResetPasswordConfirmation(string email, string token, string password)
-        {
-            User? user = await _userManager.FindByEmailAsync(email);
-            IdentityResult resetPassResult = await _userManager.ResetPasswordAsync(user!, token, password);
-            return resetPassResult.Succeeded ? Ok() : BadRequest(resetPassResult.Errors);
-        }
         [HttpPut]
         [Authorize]
         [Route("[action]")]
-        public async Task<IActionResult> UpdateUserAsync([FromForm] UserSignUpDto userDto)
+        public async Task<IActionResult> UpdateUser([FromForm] UserSignUpDto userDto)
         {
-            var userResult = await Manager.UpdateUserAsync(userDto);
+            var userResult = await Service.UpdateUser(userDto);
             return !userResult.Succeeded ? new BadRequestObjectResult(userResult) : StatusCode(201);
         }
         [HttpPost]
         [Route("[action]")]
         public async Task<IActionResult> LogIn([FromBody] UserLoginDto user)
         {
-            return Ok(await Manager.Login(user));
+            return Ok(await Service.LogIn(user));
 
         }
 
