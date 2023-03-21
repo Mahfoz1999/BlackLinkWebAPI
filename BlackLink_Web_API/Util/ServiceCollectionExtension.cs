@@ -6,6 +6,10 @@ using BlackLink_Commends.Commend.BlogCommends.Commend;
 using BlackLink_Commends.Commend.BlogCommends.CommendHandler;
 using BlackLink_Commends.Commend.BlogCommends.Query;
 using BlackLink_Commends.Commend.BlogCommends.QueryHandler;
+using BlackLink_Commends.Commend.BlogCommentCommends.Commend;
+using BlackLink_Commends.Commend.BlogCommentCommends.CommendHandler;
+using BlackLink_Commends.Commend.BlogCommentCommends.Query;
+using BlackLink_Commends.Commend.BlogCommentCommends.QueryHandler;
 using BlackLink_Commends.Commend.CategoryCommends.Commend;
 using BlackLink_Commends.Commend.CategoryCommends.CommendHandler;
 using BlackLink_Commends.Commend.CategoryCommends.Query;
@@ -168,6 +172,12 @@ public static class ServiceCollectionExtension
         services.AddTransient<IRequestHandler<AddBlogCommend, Blog>, AddBlogCommendHandler>();
         services.AddTransient<IRequestHandler<UpdateBlogCommend, Blog>, UpdateBlogCommendHandler>();
         services.AddTransient<IRequestHandler<RemoveBlogCommend, Blog>, RemoveBlogCommendHandler>();
+
+        services.AddTransient<IRequestHandler<GetBlogCommentByIdQuery, BlogComment>, GetBlogCommentByIdQueryHandler>();
+        services.AddTransient<IRequestHandler<GetAllBlogCommentsQuery, IEnumerable<BlogComment>>, GetAllBlogCommentsQueryHandler>();
+        services.AddTransient<IRequestHandler<AddBlogCommentCommend, BlogComment>, AddBlogCommentCommendHandler>();
+        services.AddTransient<IRequestHandler<UpdateBlogCommentCommend>, UpdateBlogCommentCommendHandler>();
+        services.AddTransient<IRequestHandler<RemoveBlogCommentCommend>, RemoveBlogCommentCommendHandler>();
 
         services.AddTransient<IRequestHandler<GetStoryByIdQuery, Story>, GetStoryByIdQueryHandler>();
         services.AddTransient<IRequestHandler<GetAllStoriesQuery, IEnumerable<Story>>, GetAllStoriesQueryHandler>();

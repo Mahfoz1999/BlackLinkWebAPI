@@ -21,4 +21,5 @@ public class User : IdentityUser
     public ICollection<Story> Stories { get; set; } = new List<Story>();
     public ICollection<InterestUser> InterestUsers { get; set; } = new List<InterestUser>();
     public ICollection<Blog> Blogs { get; set; } = new List<Blog>();
+    public ICollection<BlogComment> BlogComments { get; set; } = new List<BlogComment>();
 }

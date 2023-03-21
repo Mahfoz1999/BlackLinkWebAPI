@@ -2,6 +2,7 @@ using BlackLink_API.Middleware;
 using BlackLink_Database.SQLConnection;
 using BlackLink_DTO.Mail;
 using BlackLink_Services.AuthenticationService;
+using BlackLink_Services.BlogCommentService;
 using BlackLink_Services.BlogService;
 using BlackLink_Services.CategoryService;
 using BlackLink_Services.InterestService;
@@ -23,6 +24,7 @@ builder.Services.AddTransient<IMailService, MailService>();
 builder.Services.TryAddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.TryAddScoped<IInterestService, InterestService>();
 builder.Services.TryAddScoped<IBlogService, BlogService>();
+builder.Services.TryAddScoped<IBlogCommentService, BlogCommentService>();
 builder.Services.TryAddScoped<IStoryService, StoryService>();
 builder.Services.TryAddScoped<ICategoryService, CategoryService>();
 

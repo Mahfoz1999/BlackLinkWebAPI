@@ -77,9 +77,9 @@ public class SignUpCommendHandler : IRequestHandler<SignUpCommend, IdentityResul
             }
             return result;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
     }
 }

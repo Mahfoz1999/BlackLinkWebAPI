@@ -1,9 +1,12 @@
-﻿namespace BlackLink_Models.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace BlackLink_Models.Models;
+
+public class BaseModel
 {
-    public class BaseModel
-    {
-        public DateTime CreationDate { get; set; } = DateTime.Now;
-        public Guid CreatedBy { get; set; }
-        public Guid UpdatedBy { get; set; }
-    }
+    [Key]
+    public Guid Id { get; set; }
+    public DateTime CreationDate { get; set; } = DateTime.Now;
+    public Guid CreatedBy { get; set; }
+    public Guid UpdatedBy { get; set; }
 }

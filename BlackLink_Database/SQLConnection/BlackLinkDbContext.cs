@@ -13,6 +13,7 @@ public class BlackLinkDbContext : IdentityDbContext<User>
     public DbSet<Interest> Interests { get; set; }
     public DbSet<InterestUser> InterestUsers { get; set; }
     public DbSet<Blog> Blogs { get; set; }
+    public DbSet<BlogComment> BlogComments { get; set; }
     public DbSet<Story> Stories { get; set; }
     public DbSet<Category> Categories { get; set; }
 
