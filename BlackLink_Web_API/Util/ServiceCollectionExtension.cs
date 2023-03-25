@@ -164,14 +164,14 @@ public static class ServiceCollectionExtension
         services.AddTransient<IRequestHandler<GetInterestByIdQuery, Interest>, GetInterestByIdQueryHandler>();
         services.AddTransient<IRequestHandler<GetAllInterestsQuery, IEnumerable<Interest>>, GetAllInterestsQueryHandler>();
         services.AddTransient<IRequestHandler<AddInterestCommend, Interest>, AddInterestCommendHandler>();
-        services.AddTransient<IRequestHandler<UpdateInterestCommend, Interest>, UpdateInterestCommendHandler>();
-        services.AddTransient<IRequestHandler<RemoveInterestCommend, Interest>, RemoveInterestCommendHandler>();
+        services.AddTransient<IRequestHandler<UpdateInterestCommend>, UpdateInterestCommendHandler>();
+        services.AddTransient<IRequestHandler<RemoveInterestCommend>, RemoveInterestCommendHandler>();
 
         services.AddTransient<IRequestHandler<GetBlogByIdQuery, Blog>, GetBlogByIdQueryHandler>();
         services.AddTransient<IRequestHandler<GetAllBlogsQuery, IEnumerable<Blog>>, GetAllBlogsQueryHandler>();
         services.AddTransient<IRequestHandler<AddBlogCommend, Blog>, AddBlogCommendHandler>();
-        services.AddTransient<IRequestHandler<UpdateBlogCommend, Blog>, UpdateBlogCommendHandler>();
-        services.AddTransient<IRequestHandler<RemoveBlogCommend, Blog>, RemoveBlogCommendHandler>();
+        services.AddTransient<IRequestHandler<UpdateBlogCommend>, UpdateBlogCommendHandler>();
+        services.AddTransient<IRequestHandler<RemoveBlogCommend>, RemoveBlogCommendHandler>();
 
         services.AddTransient<IRequestHandler<GetBlogCommentByIdQuery, BlogComment>, GetBlogCommentByIdQueryHandler>();
         services.AddTransient<IRequestHandler<GetAllBlogCommentsQuery, IEnumerable<BlogComment>>, GetAllBlogCommentsQueryHandler>();
@@ -182,7 +182,7 @@ public static class ServiceCollectionExtension
         services.AddTransient<IRequestHandler<GetStoryByIdQuery, Story>, GetStoryByIdQueryHandler>();
         services.AddTransient<IRequestHandler<GetAllStoriesQuery, IEnumerable<Story>>, GetAllStoriesQueryHandler>();
         services.AddTransient<IRequestHandler<AddStoryCommend, Story>, AddStoryCommendHandler>();
-        services.AddTransient<IRequestHandler<UpdateStoryCommend, Story>, UpdateStoryCommendHandler>();
-        services.AddTransient<IRequestHandler<RemoveStoryCommend, Story>, RemoveStoryCommendHandler>();
+        services.AddTransient<IRequestHandler<UpdateStoryCommend>, UpdateStoryCommendHandler>();
+        services.AddTransient<IRequestHandler<RemoveStoryCommend>, RemoveStoryCommendHandler>();
     }
 }

@@ -20,10 +20,8 @@ public class AddBlogCommendHandler : IRequestHandler<AddBlogCommend, Blog>
     }
     public async Task<Blog> Handle(AddBlogCommend request, CancellationToken cancellationToken)
     {
-        GetCurrentUserQuery getCurrentUser = new();
-        User user = await _mediator.Send(getCurrentUser);
-        GetCategoryByIdQuery cateogrycommend = new(Id: request.categoryId);
-        Category category = await _mediator.Send(cateogrycommend);
+        User user = await _mediator.Send(new GetCurrentUserQuery());
+        Category category = await _mediator.Send(new GetCategoryByIdQuery(request.categoryId));
         Blog blog = new()
         {
             Content = request.content,

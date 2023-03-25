@@ -7,14 +7,14 @@ using MediatR;
 
 namespace BlackLink_Commends.Commend.StoryCommends.CommendHandler;
 
-public class RemoveStoryCommendHandler : IRequestHandler<RemoveStoryCommend, Story>
+public class RemoveStoryCommendHandler : IRequestHandler<RemoveStoryCommend>
 {
     private readonly BlackLinkDbContext Context;
     public RemoveStoryCommendHandler(BlackLinkDbContext Context)
     {
         this.Context = Context;
     }
-    public async Task<Story> Handle(RemoveStoryCommend request, CancellationToken cancellationToken)
+    public async Task Handle(RemoveStoryCommend request, CancellationToken cancellationToken)
     {
         Story? story = await Context.Stories.FindAsync(request.Id);
         if (story != null)
@@ -22,7 +22,6 @@ public class RemoveStoryCommendHandler : IRequestHandler<RemoveStoryCommend, Sto
             FileManagment.DeleteFile(story.FileUrl!);
             Context.Stories.Remove(story);
             await Context.SaveChangesAsync(cancellationToken);
-            return story;
         }
         else throw new NotFoundException("Story Not Found");
     }

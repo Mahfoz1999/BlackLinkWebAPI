@@ -18,10 +18,9 @@ public class StoryService : IStoryService
         await _mediator.Send(commend);
         return commend;
     }
-    public async Task<UpdateStoryCommend> UpdateStory(UpdateStoryCommend commend)
+    public async Task UpdateStory(UpdateStoryCommend commend)
     {
         await _mediator.Send(commend);
-        return commend;
     }
     public async Task<IEnumerable<StoryDto>> GetAllStories()
     {

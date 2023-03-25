@@ -7,14 +7,14 @@ using MediatR;
 
 namespace BlackLink_Commends.Commend.BlogCommends.CommendHandler;
 
-public class RemoveBlogCommendHandler : IRequestHandler<RemoveBlogCommend, Blog>
+public class RemoveBlogCommendHandler : IRequestHandler<RemoveBlogCommend>
 {
     private readonly BlackLinkDbContext Context;
     public RemoveBlogCommendHandler(BlackLinkDbContext Context)
     {
         this.Context = Context;
     }
-    public async Task<Blog> Handle(RemoveBlogCommend request, CancellationToken cancellationToken)
+    public async Task Handle(RemoveBlogCommend request, CancellationToken cancellationToken)
     {
         Blog? blog = await Context.Blogs.FindAsync(request.Id);
         if (blog != null)
@@ -22,7 +22,6 @@ public class RemoveBlogCommendHandler : IRequestHandler<RemoveBlogCommend, Blog>
             FileManagment.DeleteFile(blog.ImageUrl!);
             Context.Blogs.Remove(blog);
             await Context.SaveChangesAsync(cancellationToken);
-            return blog;
         }
         else throw new NotFoundException("Blog Not Found");
     }

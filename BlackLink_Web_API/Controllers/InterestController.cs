@@ -26,8 +26,8 @@ namespace BlackLink_API.Controllers
         [Route("[action]")]
         public async Task<IActionResult> UpdateInterest(UpdateInterestCommend commend)
         {
-            var interest = await service.UpdateInterest(commend);
-            return Ok(interest);
+            await service.UpdateInterest(commend);
+            return Ok();
         }
 
 

@@ -8,7 +8,7 @@ using MediatR;
 
 namespace BlackLink_Commends.Commend.StoryCommends.CommendHandler;
 
-public class UpdateStoryCommendHandler : IRequestHandler<UpdateStoryCommend, Story>
+public class UpdateStoryCommendHandler : IRequestHandler<UpdateStoryCommend>
 {
     private readonly BlackLinkDbContext Context;
     private readonly IMediator _mediator;
@@ -18,7 +18,7 @@ public class UpdateStoryCommendHandler : IRequestHandler<UpdateStoryCommend, Sto
         _mediator = mediator;
 
     }
-    public async Task<Story> Handle(UpdateStoryCommend request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateStoryCommend request, CancellationToken cancellationToken)
     {
         Story? story = await Context.Stories.FindAsync(request.Id);
         if (story != null)
@@ -31,7 +31,6 @@ public class UpdateStoryCommendHandler : IRequestHandler<UpdateStoryCommend, Sto
             }
             Context.Stories.Update(story);
             await Context.SaveChangesAsync(cancellationToken);
-            return story;
         }
         else throw new NotFoundException("Story Not Found");
     }

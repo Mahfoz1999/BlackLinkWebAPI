@@ -18,10 +18,9 @@ public class InterestService : IInterestService
         await _mediator.Send(commned);
         return commned;
     }
-    public async Task<UpdateInterestCommend> UpdateInterest(UpdateInterestCommend commned)
+    public async Task UpdateInterest(UpdateInterestCommend commned)
     {
         await _mediator.Send(commned);
-        return commned;
     }
     public async Task<IEnumerable<InterestDto>> GetAllInterests()
     {

@@ -27,8 +27,8 @@ public class StoryController : Controller
     [Route("[action]")]
     public async Task<IActionResult> UpdateStory([FromForm] UpdateStoryCommend commend)
     {
-        var result = await service.UpdateStory(commend);
-        return Ok(result);
+        await service.UpdateStory(commend);
+        return Ok();
     }
     [HttpGet]
     [AllowAnonymous]
