@@ -1,7 +1,10 @@
 ﻿using BlackLink_Commends.Commend.AuthenticationCommends.Commend;
+using BlackLink_Commends.Util;
 using BlackLink_Database.SQLConnection;
 using BlackLink_DTO.Mail;
 using BlackLink_Models.Models;
+using BlackLink_Models.Models.Files;
+using BlackLink_SharedKernal.Enum.File;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -34,9 +37,6 @@ public class SignUpCommendHandler : IRequestHandler<SignUpCommend, IdentityResul
                 Email = request.formDto.Email,
                 Gender = request.formDto.Gender,
                 Birthdate = request.formDto.Birthdate,
-                AboutMe = request.formDto.AboutMe,
-                City = request.formDto.City,
-                Country = request.formDto.Country,
             };
             var result = await _userManager.CreateAsync(user, request.formDto.Password);
             if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
@@ -60,6 +60,11 @@ public class SignUpCommendHandler : IRequestHandler<SignUpCommend, IdentityResul
                     Interest = interest,
                     User = user,
                 });
+            }
+            if (request.formDto.File is not null)
+            {
+                UserPhoto userPhoto = new() { PhotoUrl = await FileManagment.SaveFile(request.formDto.File, FileType.Users), User = user };
+                await Context.UserPhotos.AddAsync(userPhoto);
             }
             await Context.SaveChangesAsync();
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);

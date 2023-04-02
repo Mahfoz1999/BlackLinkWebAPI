@@ -15,7 +15,6 @@ public class BlogController : Controller
         this.service = service;
     }
     [HttpPost]
-    [Authorize]
     [Route("[action]")]
     public async Task<IActionResult> CreateBlog([FromForm] AddBlogCommend commend)
     {
@@ -23,7 +22,6 @@ public class BlogController : Controller
         return Ok(blog);
     }
     [HttpPut]
-    [Authorize]
     [Route("[action]")]
     public async Task<IActionResult> UpdateBlog([FromForm] UpdateBlogCommend commend)
     {

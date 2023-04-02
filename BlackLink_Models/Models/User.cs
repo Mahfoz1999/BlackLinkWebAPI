@@ -17,7 +17,7 @@ public class User : IdentityUser
     public double? Longitude { get; set; }
     public Gender Gender { get; set; }
     public DateTime CreationDate { get; set; } = DateTime.Now;
-    public DateTimeOffset Birthdate { get; set; }
+    public DateTime Birthdate { get; set; }
     public ICollection<Story> Stories { get; set; } = new List<Story>();
     public ICollection<InterestUser> InterestUsers { get; set; } = new List<InterestUser>();
     public ICollection<Blog> Blogs { get; set; } = new List<Blog>();

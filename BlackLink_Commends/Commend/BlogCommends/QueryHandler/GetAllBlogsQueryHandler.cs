@@ -15,6 +15,6 @@ public class GetAllBlogsQueryHandler : IRequestHandler<GetAllBlogsQuery, IEnumer
     }
     public async Task<IEnumerable<Blog>> Handle(GetAllBlogsQuery request, CancellationToken cancellationToken)
     {
-        return await Context.Blogs.ToListAsync(cancellationToken);
+        return await Context.Blogs.Include(e => e.User).ThenInclude(e => e.UserPhotos).ToListAsync(cancellationToken);
     }
 }

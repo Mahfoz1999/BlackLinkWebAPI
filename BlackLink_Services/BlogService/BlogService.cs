@@ -33,11 +33,6 @@ public class BlogService : IBlogService
             Content = e.Content,
             ImageUrl = e.ImageUrl!,
             CreationDate = e.CreationDate,
-            Category = new BlackLink_DTO.Category.CategoryDto()
-            {
-                Id = e.Category.Id,
-                Name = e.Category.Name,
-            },
             User = new BlackLink_DTO.User.UserBlogDto()
             {
                 Id = Guid.Parse(e.User.Id),
@@ -57,11 +52,6 @@ public class BlogService : IBlogService
             Content = blog.Content,
             ImageUrl = blog.ImageUrl!,
             CreationDate = blog.CreationDate,
-            Category = new BlackLink_DTO.Category.CategoryDto()
-            {
-                Id = blog.Category.Id,
-                Name = blog.Category.Name,
-            },
             User = new BlackLink_DTO.User.UserBlogDto()
             {
                 Id = Guid.Parse(blog.User.Id),

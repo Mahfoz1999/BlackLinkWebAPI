@@ -1,5 +1,4 @@
 ﻿using BlackLink_Commends.Commend.BlogCommends.Commend;
-using BlackLink_Commends.Commend.CategoryCommends.Query;
 using BlackLink_Commends.Commend.UserCommends.Query;
 using BlackLink_Commends.Util;
 using BlackLink_Database.SQLConnection;
@@ -20,18 +19,23 @@ public class AddBlogCommendHandler : IRequestHandler<AddBlogCommend, Blog>
     }
     public async Task<Blog> Handle(AddBlogCommend request, CancellationToken cancellationToken)
     {
-        User user = await _mediator.Send(new GetCurrentUserQuery());
-        Category category = await _mediator.Send(new GetCategoryByIdQuery(request.categoryId));
-        Blog blog = new()
+        try
         {
-            Content = request.content,
-            User = user,
-            Category = category,
-        };
-        if (request.file is not null)
-            blog.ImageUrl = await FileManagment.SaveFile(request.file, FileType.Blogs);
-        await Context.Blogs.AddAsync(blog, cancellationToken);
-        await Context.SaveChangesAsync(cancellationToken);
-        return blog;
+            User user = await _mediator.Send(new GetCurrentUserQuery());
+            Blog blog = new()
+            {
+                Content = request.content,
+                User = user,
+            };
+            if (request.file is not null)
+                blog.ImageUrl = await FileManagment.SaveFile(request.file, FileType.Blogs);
+            await Context.Blogs.AddAsync(blog, cancellationToken);
+            await Context.SaveChangesAsync(cancellationToken);
+            return blog;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
     }
 }

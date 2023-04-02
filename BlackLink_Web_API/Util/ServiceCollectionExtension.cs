@@ -10,10 +10,6 @@ using BlackLink_Commends.Commend.BlogCommentCommends.Commend;
 using BlackLink_Commends.Commend.BlogCommentCommends.CommendHandler;
 using BlackLink_Commends.Commend.BlogCommentCommends.Query;
 using BlackLink_Commends.Commend.BlogCommentCommends.QueryHandler;
-using BlackLink_Commends.Commend.CategoryCommends.Commend;
-using BlackLink_Commends.Commend.CategoryCommends.CommendHandler;
-using BlackLink_Commends.Commend.CategoryCommends.Query;
-using BlackLink_Commends.Commend.CategoryCommends.QueryHandler;
 using BlackLink_Commends.Commend.InterestCommends.Commend;
 using BlackLink_Commends.Commend.InterestCommends.CommendHandler;
 using BlackLink_Commends.Commend.InterestCommends.Query;
@@ -22,6 +18,8 @@ using BlackLink_Commends.Commend.StoryCommends.Commend;
 using BlackLink_Commends.Commend.StoryCommends.CommendHandler;
 using BlackLink_Commends.Commend.StoryCommends.Query;
 using BlackLink_Commends.Commend.StoryCommends.QueryHandler;
+using BlackLink_Commends.Commend.UserCommends.Query;
+using BlackLink_Commends.Commend.UserCommends.QueryHandler;
 using BlackLink_Database.SQLConnection;
 using BlackLink_DTO.User;
 using BlackLink_Models.Models;
@@ -150,16 +148,14 @@ public static class ServiceCollectionExtension
     #endregion
     public static void AddCommendTransients(this IServiceCollection services)
     {
+        services.AddTransient<IRequestHandler<GetCurrentUserQuery, User>, GetCurrentUserQueryHandler>();
+        services.AddTransient<IRequestHandler<GetAllUsersQuery, IEnumerable<User>>, GetAllUsersQueryHandler>();
+
         services.AddTransient<IRequestHandler<GetTokenQuery, JwtSecurityToken>, GetTokenQueryHandler>();
         services.AddTransient<IRequestHandler<SignUpCommend, IdentityResult>, SignUpCommendHandler>();
         services.AddTransient<IRequestHandler<UpdateUserCommend, IdentityResult>, UpdateUserCommendHandler>();
         services.AddTransient<IRequestHandler<LogInCommend, TokenModel>, LogInCommendHanlder>();
 
-        services.AddTransient<IRequestHandler<GetCategoryByIdQuery, Category>, GetCategoryByIdQueryHandler>();
-        services.AddTransient<IRequestHandler<GetAllCategoriesQuery, IEnumerable<Category>>, GetAllCategoriesQueryHandler>();
-        services.AddTransient<IRequestHandler<AddCategoryCommend, Category>, AddCategoryCommendHandler>();
-        services.AddTransient<IRequestHandler<UpdateCategoryCommend, Category>, UpdateCategoryCommendHandler>();
-        services.AddTransient<IRequestHandler<RemoveCategoryCommend, Category>, RemoveCategoryCommendHandler>();
 
         services.AddTransient<IRequestHandler<GetInterestByIdQuery, Interest>, GetInterestByIdQueryHandler>();
         services.AddTransient<IRequestHandler<GetAllInterestsQuery, IEnumerable<Interest>>, GetAllInterestsQueryHandler>();

@@ -28,9 +28,6 @@ namespace BlackLink_Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -53,18 +50,23 @@ namespace BlackLink_Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("Blogs");
                 });
 
-            modelBuilder.Entity("BlackLink_Models.Models.Category", b =>
+            modelBuilder.Entity("BlackLink_Models.Models.BlogComment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BlogId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
@@ -72,16 +74,19 @@ namespace BlackLink_Database.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.HasIndex("BlogId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("BlogComments");
                 });
 
             modelBuilder.Entity("BlackLink_Models.Models.Files.UserPhoto", b =>
@@ -203,8 +208,8 @@ namespace BlackLink_Database.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<DateTimeOffset>("Birthdate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("Birthdate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
@@ -429,19 +434,28 @@ namespace BlackLink_Database.Migrations
 
             modelBuilder.Entity("BlackLink_Models.Models.Blog", b =>
                 {
-                    b.HasOne("BlackLink_Models.Models.Category", "Category")
-                        .WithMany("Blogs")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("BlackLink_Models.Models.User", "User")
                         .WithMany("Blogs")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Category");
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BlackLink_Models.Models.BlogComment", b =>
+                {
+                    b.HasOne("BlackLink_Models.Models.Blog", "Blog")
+                        .WithMany("BlogComments")
+                        .HasForeignKey("BlogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BlackLink_Models.Models.User", "User")
+                        .WithMany("BlogComments")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Blog");
 
                     b.Navigation("User");
                 });
@@ -532,9 +546,9 @@ namespace BlackLink_Database.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BlackLink_Models.Models.Category", b =>
+            modelBuilder.Entity("BlackLink_Models.Models.Blog", b =>
                 {
-                    b.Navigation("Blogs");
+                    b.Navigation("BlogComments");
                 });
 
             modelBuilder.Entity("BlackLink_Models.Models.Interest", b =>
@@ -544,6 +558,8 @@ namespace BlackLink_Database.Migrations
 
             modelBuilder.Entity("BlackLink_Models.Models.User", b =>
                 {
+                    b.Navigation("BlogComments");
+
                     b.Navigation("Blogs");
 
                     b.Navigation("InterestUsers");
